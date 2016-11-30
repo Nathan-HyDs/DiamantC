@@ -105,9 +105,18 @@ public class Tree {
         in the tree that begins with n. This can be done
         by using the value of result attribute in leaves.
      */
+
     public int computeBlueVictories(Node n) {
         int nb = 0;
-        /* A COMPLETER */
+        if (n.nbChildren==0){
+            if (n.result==1)
+                nb++;
+        }
+        else {
+            for (int k=0 ; k<n.nbChildren ; k++){
+                nb += computeBlueVictories(n.children[k]);
+            }
+        }
         return nb;
     }
 
@@ -118,7 +127,15 @@ public class Tree {
      */
     public int computeRedVictories(Node n) {
         int nb = 0;
-        /* A COMPLETER */
+        if (n.nbChildren==0){
+            if (n.result==2)
+                nb++;
+        }
+        else {
+            for (int k=0 ; k<n.nbChildren ; k++){
+                nb += computeBlueVictories(n.children[k]);
+            }
+        }
         return nb;
     }
 
@@ -129,7 +146,15 @@ public class Tree {
      */
     public int computeDraws(Node n) {
         int nb = 0;
-        /* A COMPLETER */
+        if (n.nbChildren==0){
+            if (n.result==0)
+                nb++;
+        }
+        else {
+            for (int k=0 ; k<n.nbChildren ; k++){
+                nb += computeBlueVictories(n.children[k]);
+            }
+        }
         return nb;
     }
 }

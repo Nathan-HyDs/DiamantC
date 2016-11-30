@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/diamant.iml" filepath="$PROJECT_DIR$/diamant.iml" />
+      <module fileurl="file://$PROJECT_DIR$/diamantJava.iml" filepath="$PROJECT_DIR$/diamantJava.iml" />
     </modules>
   </component>
 </project>
