@@ -159,7 +159,6 @@ node_t* addChild(node_t* n, int idCell) {
 tree_t* createTree() {
 
     tree_t* t= malloc(sizeof(tree_t));
-    tree_t* t = NULL;
     node_t* root = malloc(sizeof(node_t));
     /* A COMPLETER :
      - allouer l'espace mémoire pour un tree_t et mettre son adresse dans t
