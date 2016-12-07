@@ -252,13 +252,13 @@ int computeBlueVictories(node_t* n) {
 
     int nb = 0;
     if (n->nbChildren==0){
-        if(n->result==1){
+        if(n->result==BLUE_WINS){
             nb++;
         }
     }
     else {
         for (int k=0 ; k < n->nbChildren ; k++){
-            nb += computeDraws(n->children[k]);
+            nb += computeBlueVictories(n->children[k]);
         }
     }
     return nb;
@@ -269,7 +269,7 @@ int computeRedVictories(node_t* n) {
 
     int nb = 0;
     if (n->nbChildren==0){
-        if(n->result==2){
+        if(n->result==RED_WINS){
             nb++;
         }
     }
@@ -286,7 +286,7 @@ int computeDraws(node_t* n) {
 
     int nb = 0;
     if (n->nbChildren==0){
-        if(n->result==0){
+        if(n->result==DRAW_PARTY){
             nb++;
         }
     }
