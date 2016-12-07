@@ -101,6 +101,7 @@ int voidCellIndex(board_t* b) {
 
 void computeScore(board_t* b) {
     perror("computeScore");
+
     b->blueScore=0;
     b->redScore=0;
 
@@ -130,6 +131,7 @@ void setPawn(board_t* b, int idCell, char value) {
 
 node_t* createNode(int idCell, int turn) {
     perror("createNode");
+    printf("%d\n",turn);
     node_t* n=malloc(sizeof(node_t));
 
     n->turn=(char)turn;
@@ -140,26 +142,30 @@ node_t* createNode(int idCell, int turn) {
     if (n->turn == 1){
         children = malloc(sizeof(node_t*)*1);
         perror("LeIf");
+        printf("%d\n",turn);
     }
     else if (n->turn < 12){
         children = malloc(sizeof(node_t*)*(13-turn));
         perror("LeElseIf");
+        printf("%d\n",turn);
     }else{
         children=NULL;
         perror("LeElse");
+        printf("%d\n",turn);
     }
 
     n->nbChildren=0;
     n->result=NO_RESULT;
     n->children=children;
     perror("createNodeFin");
+    printf("%d\n",turn);
     return n;
 }
 
 node_t* addChild(node_t* n, int idCell) {
     perror("addChild");
     printf("%d\n",n->turn);
-    node_t* child = createNode(idCell,n->turn+1);
+    node_t* child = createNode(idCell,(int)n->turn+1);
     n->nbChildren+=1;
     perror("addChild2");
     n->children[(n->nbChildren)-1]=child;
@@ -202,7 +208,6 @@ void setFirstRedChoice(tree_t* t, board_t* b, int idCell) {
 **************************/
     t->root=createNode(idCell,1);
     setPawn(b,idCell,7);
-
 }
 
 void buildTree(tree_t* t, board_t* b) {
@@ -210,7 +215,7 @@ void buildTree(tree_t* t, board_t* b) {
     /* A VERIFIER
   */
 
-    nbConfigurations=5;
+    nbConfigurations=0;
     node_t* n = malloc(sizeof(node_t));
     t->root->children[0]=n;
     computePossibilities(n,b);
@@ -236,16 +241,19 @@ void computePossibilities(node_t* n, board_t* b) {
         if((nbConfigurations%1000000)==0)printf(".");
         return;
     }
-
+    printf("%d\n",n->turn);
     int nextPawnValue= ((int) n->turn+2)/2;
+    printf("%d\n",n->turn);
     if((n->turn+1)%2==0){nextPawnValue+=6;}
 
     for(int i=0;i<13;i++){
         perror("ça passe");
+        printf("%d\n",n->turn);
         if(b->board[i]==VOID_CELL){
             setPawn(b,i,(char)nextPawnValue);
             node_t* child = addChild(n,i);
             perror("apresaddchild");
+            printf("%d\n",n->turn);
             computePossibilities(child,b);
             setPawn(b,i,VOID_CELL);
         }
