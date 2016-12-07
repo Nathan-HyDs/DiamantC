@@ -11,18 +11,12 @@ int main(int argc, char** argv){
   int idCellRed = 0;  
 
   //Bug ici
-  setFirstBlueChoice(t,b,idCellBlue);
-  perror("main-line-15");
   setFirstRedChoice(t,b,idCellRed);
-  perror("main-line-17");
-  buildTree(t,b);
-  perror("main-line-19");
+    setFirstBlueChoice(t,b,idCellBlue);
+    buildTree(t,b);
   int nbBlueVictories = computeBlueVictories(t->root);
-  perror("main-line-21");
   int nbRedVictories = computeRedVictories(t->root);
-  perror("main-line-22");
   int nbDraws = computeDraws(t->root);
-  perror("main-line-25");
   printf("nb configuration: %d, nb blue victories: %d, nb red victories: %d, nb draws: %d\n",nbConfigurations,nbBlueVictories, nbRedVictories, nbDraws);
   return 0;
 }
