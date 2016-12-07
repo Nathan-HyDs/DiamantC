@@ -265,7 +265,7 @@ int computeBlueVictories(node_t* n) {
     }
     else {
         for (int k=0 ; k < n->nbChildren ; k++){
-            nb += computeBlueVictories(n->children[k]);
+            nb += computeDraws(n->children[k]);
         }
     }
     return nb;
@@ -282,7 +282,7 @@ int computeRedVictories(node_t* n) {
     }
     else {
         for (int k=0 ; k < n->nbChildren ; k++){
-            nb += computeBlueVictories(n->children[k]);
+            nb += computeRedVictories(n->children[k]);
         }
     }
     return nb;
@@ -299,7 +299,7 @@ int computeDraws(node_t* n) {
     }
     else {
         for (int k=0 ; k < n->nbChildren ; k++){
-            nb += computeBlueVictories(n->children[k]);
+            nb += computeDraws(n->children[k]);
         }
     }
     return nb;
