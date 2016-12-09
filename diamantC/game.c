@@ -124,7 +124,6 @@ void playWithTwoFriends(){
 
     computeScore(plateau);
 
-    printf("b:%d r:%d \n",plateau->blueScore,plateau->redScore);
 
 
     if(plateau->redScore<plateau->blueScore)

@@ -12,9 +12,10 @@ board_t* createBoard() {
     board_t* plateau = malloc(sizeof(board_t));
 
     clearBoard(plateau);
-    for(int k=0;k<13;k++){
-        plateau->board[k]=NO_NEIGHBOR;
-    }
+    for(int i=0;i<13;i++)
+        for(int j=0;j<6;j++){
+            plateau->neighbors[i][j]=NO_NEIGHBOR;
+        }
 
     // define neighbors for cell 0
     plateau->neighbors[0][0] = 1;
@@ -115,6 +116,7 @@ void computeScore(board_t* b) {
             }
             else{
                 b->redScore += (b->board[(int)b->neighbors[idVoid][i]]-6);
+
             }
         }
     }
