@@ -155,7 +155,7 @@ int main(int argc, char** argv){
         do{
             printf("Choix :");
             scanf("%d",&choice);
-        }while(choice>4 && choice>=0);
+        }while(choice<4 && choice>=0);
 
         switch(choice){
             case 1:
