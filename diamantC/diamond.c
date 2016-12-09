@@ -10,6 +10,7 @@ int nbConfigurations;
 board_t* createBoard() {
 
     board_t* plateau = malloc(sizeof(board_t));
+
     clearBoard(plateau);
     for(int k=0;k<13;k++){
         plateau->board[k]=NO_NEIGHBOR;
@@ -85,7 +86,7 @@ board_t* createBoard() {
 }
 
 void clearBoard(board_t* b) {
-
+    b->board=malloc(sizeof(char)*13);
     for(int i=0;i<13;i++)b->board[i]=VOID_CELL;
     b->blueScore=0;
     b->redScore=0;
