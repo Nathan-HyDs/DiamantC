@@ -63,26 +63,26 @@ void printBoard(board_t* b){
     }
 
 }
+void exo1(){
+    board_t* b = createBoard();
+    tree_t* t = createTree();
 
-int main(int argc, char** argv){
-/*
-  board_t* b = createBoard();
+    int idCellBlue = 1;
+    int idCellRed = 0;
 
 
-  tree_t* t = createTree();
-  int idCellBlue = 1;
-  int idCellRed = 0;
-
-  //Bug ici
-  setFirstRedChoice(t,b,idCellRed);
+    setFirstRedChoice(t,b,idCellRed);
     setFirstBlueChoice(t,b,idCellBlue);
     buildTree(t,b);
-  int nbBlueVictories = computeBlueVictories(t->root);
-  int nbRedVictories = computeRedVictories(t->root);
-  int nbDraws = computeDraws(t->root);
-    */
-    //printf("nb configuration: %d, nb blue victories: %d, nb red victories: %d, nb draws: %d\n",nbConfigurations,nbBlueVictories, nbRedVictories, nbDraws);
+    int nbBlueVictories = computeBlueVictories(t->root);
+    int nbRedVictories = computeRedVictories(t->root);
+    int nbDraws = computeDraws(t->root);
 
+    printf("nb configuration: %d, nb blue victories: %d, nb red victories: %d, nb draws: %d\n",nbConfigurations,nbBlueVictories, nbRedVictories, nbDraws);
+
+}
+
+void playWithTwoFriends(){
     board_t* plateau = createBoard();
 
     int turn=0;
@@ -92,7 +92,7 @@ int main(int argc, char** argv){
 
     //Lancement de la partie
     printBoard(plateau);
-    while(turn<=6){
+    while(turn<6){
         printf("bleu : %d\n",blueToken);
         printf("rouge : %d\n",redToken);
 
@@ -103,7 +103,7 @@ int main(int argc, char** argv){
             printf("Où veux-tu jouer ?\n");
             scanf("%d",&jouer);
         }while(plateau->board[jouer]!=VOID_CELL);
-        setPawn(plateau,jouer,blueToken);
+        setPawn(plateau,jouer,blueToken++);
 
 
         printBoard(plateau);
@@ -114,7 +114,7 @@ int main(int argc, char** argv){
             printf("Où veux-tu jouer (ia)?\n");
             scanf("%d",&jouer);
         }while(plateau->board[jouer]!=VOID_CELL);
-        setPawn(plateau,jouer,redToken);
+        setPawn(plateau,jouer,redToken++);
 
 
         printBoard(plateau);
@@ -125,12 +125,54 @@ int main(int argc, char** argv){
     computeScore(plateau);
 
     if(plateau->redScore<plateau->blueScore)
-        printf("\033[31mRed Victories \033[37m");
+        printf("\033[31mRed Victories \033[37m\n");
     else if(plateau->blueScore<plateau->redScore)
-        printf("\033[34mBlue Victories \033[37m");
+        printf("\033[34mBlue Victories \033[37m\n");
     else
-        printf("Egalité");
-
-
-    return 0;
+        printf("Egalité\n");
 }
+
+int main(int argc, char** argv){
+
+    printf("  _____  _                                 _   _ \n"
+                   " |  __ \\(_)                               | | | |\n"
+                   " | |  | |_  __ _ _ __ ___   ___  _ __   __| | | |\n"
+                   " | |  | | |/ _` | '_ ` _ \\ / _ \\| '_ \\ / _` | | |\n"
+                   " | |__| | | (_| | | | | | | (_) | | | | (_| | |_|\n"
+                   " |_____/|_|\\__,_|_| |_| |_|\\___/|_| |_|\\__,_| (_)\n"
+                   "                                                 \n");
+    int choice=0;
+    while(1){
+        printf("\n   ############################\n");
+        printf("   #            MENU          #\n");
+        printf("   ############################\n");
+        printf("   # 1) Calcul configuration  #\n");
+        printf("   # 2) Jouer avec un ami     #\n");
+        printf("   # 3) Jouer avec une IA     #\n");
+        printf("   # 0) Quitter               #\n");
+        printf("   ############################\n");
+
+        do{
+            printf("Choix :");
+            scanf("%d",&choice);
+        }while(choice>4 && choice>=0);
+
+        switch(choice){
+            case 1:
+                exo1();
+                break;
+
+            case 2:
+                playWithTwoFriends();
+                break;
+
+            case 3:
+                printf("Work in progress...");
+
+            default:
+                return 0;
+        }
+
+    }
+}
+
