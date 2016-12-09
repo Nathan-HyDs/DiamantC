@@ -40,11 +40,12 @@ void printBoard(board_t* b){
                     printf("| ");
                 }
                 if(i==1){
-                    if(b->board[count++]==VOID_CELL) printf("  ");
-                    else if(b->board[count]<=6)printf("\033[34m%d \033[37m",b->board[j]);
+                    if(b->board[count]==VOID_CELL) printf("  ");
+                    else if(b->board[count]<=6)printf("\033[34m%d \033[37m",b->board[count]);
                     else{
-                        printf("\033[31m%d \033[37m",b->board[count]);
+                        printf("\033[31m%d \033[37m",b->board[count]-6);
                     }
+                    count++;
                 }
                 if(i==2){
                     if(j==0){
@@ -103,7 +104,7 @@ int main(int argc, char** argv){
             scanf("%d",&jouer);
         }while(plateau->board[jouer]!=VOID_CELL);
         setPawn(plateau,jouer,blueToken);
-        blueToken+=(char)1;
+
 
         printBoard(plateau);
 
@@ -114,7 +115,6 @@ int main(int argc, char** argv){
             scanf("%d",&jouer);
         }while(plateau->board[jouer]!=VOID_CELL);
         setPawn(plateau,jouer,redToken);
-        redToken+=(char)1;
 
 
         printBoard(plateau);
