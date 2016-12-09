@@ -16,6 +16,12 @@ void printBoard(board_t* b){
     nbEspace[3]=4;
     nbEspace[4]=6;
 
+    int compteur[5];
+    compteur[0]=0;
+    compteur[1]=3;
+    compteur[2]=7;
+    compteur[3]=10;
+    compteur[4]=12;
 
     int count=0;
 
@@ -31,6 +37,13 @@ void printBoard(board_t* b){
                 }
                 if(i==1){
                     if(j==0){
+                        printf("#");
+                        for(int x=0;x<(nbEspace[k]*2+7);x++){
+                            printf(" ");
+                        }
+                        for (int l = 0; l < lignes[k]; ++l) {
+                            printf("#---");
+                        }
                         printf("#");
                         printf("\n");
                         for(int x=0;x<nbEspace[k];x++){
@@ -50,6 +63,21 @@ void printBoard(board_t* b){
                 if(i==2){
                     if(j==0){
                         printf("|");
+                        for(int x=0;x<(nbEspace[k]*2+7);x++){
+                            printf(" ");
+                        }
+                        if (k<3) {
+                            for (int l = 0; l < lignes[k]; ++l) {
+                                printf("| %d ", compteur[k] + l);
+                            }
+                            printf("|");
+                        }
+                        else{
+                            for (int l = 0; l < lignes[k]; ++l) {
+                                printf("| %d", compteur[k] + l);
+                            }
+                            printf("|");
+                        }
                         printf("\n");
                         for(int x=0;x<nbEspace[k];x++){
                             printf(" ");
@@ -58,6 +86,13 @@ void printBoard(board_t* b){
                     printf("#---");
                 }
             }
+        }
+        printf("#");
+        for(int x=0;x<(nbEspace[k]*2+7);x++){
+            printf(" ");
+        }
+        for (int l = 0; l < lignes[k]; ++l) {
+            printf("#---");
         }
         printf("#\n");
     }
@@ -93,9 +128,6 @@ void playWithTwoFriends(){
     //Lancement de la partie
     printBoard(plateau);
     while(turn<6){
-        printf("bleu : %d\n",blueToken);
-        printf("rouge : %d\n",redToken);
-
 
         //Joueur
         int jouer;
@@ -105,9 +137,7 @@ void playWithTwoFriends(){
         }while(plateau->board[jouer]!=VOID_CELL);
         setPawn(plateau,jouer,blueToken++);
 
-
         printBoard(plateau);
-
 
         //IA
         do{
@@ -116,15 +146,12 @@ void playWithTwoFriends(){
         }while(plateau->board[jouer]!=VOID_CELL);
         setPawn(plateau,jouer,redToken++);
 
-
         printBoard(plateau);
 
         turn++;
     }
 
     computeScore(plateau);
-
-
 
     if(plateau->redScore<plateau->blueScore)
         printf("\033[31mRed Victories \033[37m\n");
