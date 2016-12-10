@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include "diamond.h"
-
 void printBoard(board_t* b){
     int lignes[5];
     lignes[0]=3;
@@ -117,6 +116,61 @@ void exo1(){
 
 }
 
+void playWithArtificialIntelligenceLevel1(){
+    board_t* plateau = createBoard();
+
+    int turn=0;
+
+    char blueToken=1;
+    char redToken=7;
+
+    //Lancement de la partie
+    printBoard(plateau);
+    while(turn<6){
+
+        //Joueur
+        int jouer;
+        do{
+            printf("Où veux-tu jouer ?\n");
+            scanf("%d",&jouer);
+        }while(plateau->board[jouer]!=VOID_CELL);
+        setPawn(plateau,jouer,blueToken++);
+
+        printBoard(plateau);
+
+        //IA
+        do{
+            jouer = ouEstCeQueLIAFacileDoitJouer(plateau, turn);
+        }while(plateau->board[jouer]!=VOID_CELL);
+        printf("Tour de l'IA\n%d\n",jouer);
+        setPawn(plateau,jouer,redToken++);
+
+        printBoard(plateau);
+
+        turn++;
+    }
+
+    computeScore(plateau);
+
+    if(plateau->redScore<plateau->blueScore)
+        printf("\033[31mRed Victories \033[37m\n");
+    else if(plateau->blueScore<plateau->redScore)
+        printf("\033[34mBlue Victories \033[37m\n");
+    else
+        printf("Egalité\n");
+}
+
+int ouEstCeQueLIAFacileDoitJouer(board_t plateau, int turn){
+    if (turn==1){
+        return (rand()%(13));
+    }
+    else {
+        return  (rand()%13);
+    }
+}
+
+
+
 void playWithTwoFriends(){
     board_t* plateau = createBoard();
 
@@ -172,19 +226,20 @@ int main(int argc, char** argv){
                    "                                                 \n");
     int choice=0;
     while(1){
-        printf("\n   ############################\n");
-        printf("   #            MENU          #\n");
-        printf("   ############################\n");
-        printf("   # 1) Calcul configuration  #\n");
-        printf("   # 2) Jouer avec un ami     #\n");
-        printf("   # 3) Jouer avec une IA     #\n");
-        printf("   # 0) Quitter               #\n");
-        printf("   ############################\n");
+        printf("\n   ####################################\n");
+        printf("   #               MENU               #\n");
+        printf("   ####################################\n");
+        printf("   # 1) Calcul configuration          #\n");
+        printf("   # 2) Jouer avec un ami             #\n");
+        printf("   # 3) Jouer avec une IA facile      #\n");
+        printf("   # 4) Jouer avec une IA difficile   #\n");
+        printf("   # 0) Quitter                       #\n");
+        printf("   ####################################\n");
 
         do{
             printf("Choix :");
             scanf("%d",&choice);
-        }while(choice>4 && choice<0);
+        }while(choice>5 && choice<0);
 
         switch(choice){
             case 1:
@@ -196,7 +251,11 @@ int main(int argc, char** argv){
                 break;
 
             case 3:
-                printf("Work in progress...\n");
+                playWithArtificialIntelligenceLevel1();
+                break;
+
+            case 4:
+                printf("work in progress...");
                 break;
 
             default:
