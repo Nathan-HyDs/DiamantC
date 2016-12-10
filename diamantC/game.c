@@ -118,7 +118,7 @@ void exo1(){
 }
 
 int ouEstCeQueLIAFacileDoitJouer(board_t* b,int turn){
-    if (turn==0){
+    if (turn==1){
         return  (rand()%13);
     }
     else {
@@ -171,7 +171,7 @@ void playWithArtificialIntelligenceLevel1(){
 }
 
 node_t* ouEstCeQueLIADifficileDoitJouer(int blueLastPlay,int turn, node_t* actual,board_t* plateau){
-    if (turn==0){
+    if (turn==1){
         tree_t* tree=createTree();
         setFirstBlueChoice(tree,plateau,blueLastPlay);
         node_t* n = tree->root->children[0];
@@ -181,10 +181,10 @@ node_t* ouEstCeQueLIADifficileDoitJouer(int blueLastPlay,int turn, node_t* actua
         }while(plateau->board[redPlay]!=VOID_CELL);
 
         board_t board=*plateau;
+
         n=addChild(n,redPlay);
-        perror("azertyui");
+
         computePossibilities(n,&board);
-        perror("azertyui");
         return n;
     }
     else {
@@ -207,7 +207,7 @@ node_t* ouEstCeQueLIADifficileDoitJouer(int blueLastPlay,int turn, node_t* actua
 void playWithArtificialIntelligenceLevel2(){
     board_t* plateau = createBoard();
 
-    int turn=0;
+    int turn=1;
 
     node_t* actualPositionOfIA=NULL;
 
@@ -216,7 +216,7 @@ void playWithArtificialIntelligenceLevel2(){
 
     //Lancement de la partie
     printBoard(plateau);
-    while(turn<6){
+    while(turn<=6){
 
         //Joueur
         int jouer;
@@ -253,14 +253,14 @@ void playWithArtificialIntelligenceLevel2(){
 void playWithTwoFriends(){
     board_t* plateau = createBoard();
 
-    int turn=0;
+    int turn=1;
 
     char blueToken=1;
     char redToken=7;
 
     //Lancement de la partie
     printBoard(plateau);
-    while(turn<6){
+    while(turn<=6){
 
         //Joueur
         int jouer;

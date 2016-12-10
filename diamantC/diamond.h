@@ -60,5 +60,4 @@ int computeBlueVictories(node_t* n);
 int computeRedVictories(node_t* n);
 int computeDraws(node_t* n);
 
-
 #endif
