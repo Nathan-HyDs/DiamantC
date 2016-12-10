@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "diamond.h"
 void printBoard(board_t* b){
     int lignes[5];
@@ -116,6 +117,15 @@ void exo1(){
 
 }
 
+int ouEstCeQueLIAFacileDoitJouer(board_t* b,int turn){
+    if (turn==0){
+        return  (rand()%13);
+    }
+    else {
+        return  (rand()%13);
+    }
+}
+
 void playWithArtificialIntelligenceLevel1(){
     board_t* plateau = createBoard();
 
@@ -160,14 +170,83 @@ void playWithArtificialIntelligenceLevel1(){
         printf("Egalité\n");
 }
 
-int ouEstCeQueLIAFacileDoitJouer(board_t plateau, int turn){
-    if (turn==1){
-        return (rand()%(13));
+node_t* ouEstCeQueLIADifficileDoitJouer(int blueLastPlay,int turn, node_t* actual,board_t* plateau){
+    if (turn==0){
+        tree_t* tree=createTree();
+        setFirstBlueChoice(tree,plateau,blueLastPlay);
+        node_t* n = tree->root->children[0];
+        int redPlay;
+        do{
+            redPlay=rand()%13;
+        }while(plateau->board[redPlay]!=VOID_CELL);
+
+        board_t board=*plateau;
+        n=addChild(n,redPlay);
+        perror("azertyui");
+        computePossibilities(n,&board);
+        perror("azertyui");
+        return n;
     }
     else {
-        return  (rand()%13);
+        for(int k=0;k<actual->nbChildren;k++) {
+            if(actual->children[k]->idCell==blueLastPlay)
+                actual=actual->children[k];
+        }
+        node_t* nextPlay=NULL;
+        int nbChanceWin=0;
+        for(int k=0;k<actual->nbChildren;k++){
+            int nbChanceWinForThisNode=computeRedVictories(actual->children[k]);
+            if(nbChanceWinForThisNode>nbChanceWin){
+                nextPlay=actual->children[k];
+            }
+        }
+        return nextPlay;
     }
 }
+
+void playWithArtificialIntelligenceLevel2(){
+    board_t* plateau = createBoard();
+
+    int turn=0;
+
+    node_t* actualPositionOfIA=NULL;
+
+    char blueToken=1;
+    char redToken=7;
+
+    //Lancement de la partie
+    printBoard(plateau);
+    while(turn<6){
+
+        //Joueur
+        int jouer;
+        do{
+            printf("Où veux-tu jouer ?\n");
+            scanf("%d",&jouer);
+        }while(plateau->board[jouer]!=VOID_CELL);
+        setPawn(plateau,jouer,blueToken++);
+
+        printBoard(plateau);
+
+        //IA
+        actualPositionOfIA=ouEstCeQueLIADifficileDoitJouer(jouer,turn,actualPositionOfIA,plateau);
+        setPawn(plateau,actualPositionOfIA->idCell,redToken++);
+
+        printBoard(plateau);
+
+        turn++;
+    }
+
+    computeScore(plateau);
+
+    if(plateau->redScore<plateau->blueScore)
+        printf("\033[31mRed Victories \033[37m\n");
+    else if(plateau->blueScore<plateau->redScore)
+        printf("\033[34mBlue Victories \033[37m\n");
+    else
+        printf("Egalité\n");
+}
+
 
 
 
@@ -255,7 +334,7 @@ int main(int argc, char** argv){
                 break;
 
             case 4:
-                printf("work in progress...");
+                playWithArtificialIntelligenceLevel2();
                 break;
 
             default:
