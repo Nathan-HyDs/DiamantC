@@ -3,26 +3,26 @@
 #include "diamond.h"
 #include <time.h>
 void printBoard(board_t* b){
-    int lignes[5];
-    lignes[0]=3;
-    lignes[1]=4;
-    lignes[2]=3;
-    lignes[3]=2;
-    lignes[4]=1;
+    int lines[5];
+    lines[0]=3;
+    lines[1]=4;
+    lines[2]=3;
+    lines[3]=2;
+    lines[4]=1;
 
-    int nbEspace[5];
-    nbEspace[0]=2;
-    nbEspace[1]=0;
-    nbEspace[2]=2;
-    nbEspace[3]=4;
-    nbEspace[4]=6;
+    int spaceNumber[5];
+    spaceNumber[0]=2;
+    spaceNumber[1]=0;
+    spaceNumber[2]=2;
+    spaceNumber[3]=4;
+    spaceNumber[4]=6;
 
-    int compteur[5];
-    compteur[0]=0;
-    compteur[1]=3;
-    compteur[2]=7;
-    compteur[3]=10;
-    compteur[4]=12;
+    int cellNumber[5];
+    cellNumber[0]=0;
+    cellNumber[1]=3;
+    cellNumber[2]=7;
+    cellNumber[3]=10;
+    cellNumber[4]=12;
 
     int count=0;
 
@@ -30,10 +30,10 @@ void printBoard(board_t* b){
 
     for(int k=0;k<5;k++){
         for(int i=0;i<3;i++){
-            for(int j=0;j<lignes[k];j++){
+            for(int j=0;j<lines[k];j++){
                 if(i==0){
                     if(j==0)
-                        for(int x=0;x<nbEspace[k];x++){
+                        for(int x=0;x<spaceNumber[k];x++){
                             printf(" ");
                     }
                     printf("#---");
@@ -41,15 +41,15 @@ void printBoard(board_t* b){
                 if(i==1){
                     if(j==0){
                         printf("#");
-                        for(int x=0;x<(nbEspace[k]*2+7);x++){
+                        for(int x=0;x<(spaceNumber[k]*2+7);x++){
                             printf(" ");
                         }
-                        for (int l = 0; l < lignes[k]; ++l) {
+                        for (int l = 0; l < lines[k]; ++l) {
                             printf("#---");
                         }
                         printf("#");
                         printf("\n");
-                        for(int x=0;x<nbEspace[k];x++){
+                        for(int x=0;x<spaceNumber[k];x++){
                             printf(" ");
                         }
                     }
@@ -66,23 +66,23 @@ void printBoard(board_t* b){
                 if(i==2){
                     if(j==0){
                         printf("|");
-                        for(int x=0;x<(nbEspace[k]*2+7);x++){
+                        for(int x=0;x<(spaceNumber[k]*2+7);x++){
                             printf(" ");
                         }
                         if (k<3) {
-                            for (int l = 0; l < lignes[k]; ++l) {
-                                printf("| %d ", compteur[k] + l);
+                            for (int l = 0; l < lines[k]; ++l) {
+                                printf("| %d ", cellNumber[k] + l);
                             }
                             printf("|");
                         }
                         else{
-                            for (int l = 0; l < lignes[k]; ++l) {
-                                printf("| %d", compteur[k] + l);
+                            for (int l = 0; l < lines[k]; ++l) {
+                                printf("| %d", cellNumber[k] + l);
                             }
                             printf("|");
                         }
                         printf("\n");
-                        for(int x=0;x<nbEspace[k];x++){
+                        for(int x=0;x<spaceNumber[k];x++){
                             printf(" ");
                         }
                     }
@@ -91,10 +91,10 @@ void printBoard(board_t* b){
             }
         }
         printf("#");
-        for(int x=0;x<(nbEspace[k]*2+7);x++){
+        for(int x=0;x<(spaceNumber[k]*2+7);x++){
             printf(" ");
         }
-        for (int l = 0; l < lignes[k]; ++l) {
+        for (int l = 0; l < lines[k]; ++l) {
             printf("#---");
         }
         printf("#\n");
@@ -120,7 +120,7 @@ void exo1(){
 
 }
 
-int ouEstCeQueLIAFacileDoitJouer(board_t* b,int turn){
+int whereEasyAIHasToPlay(board_t* b,int turn){
     unsigned int t=time(NULL);
     int testRand= rand_r(&t)%13;
     return  testRand;
@@ -139,21 +139,21 @@ void playWithArtificialIntelligenceLevel1(){
     while(turn<6){
 
         //Joueur
-        int jouer;
+        int playedCell;
         do{
             printf("Où veux-tu jouer ?\n");
-            scanf("%d",&jouer);
-        }while(plateau->board[jouer]!=VOID_CELL);
-        setPawn(plateau,jouer,blueToken++);
+            scanf("%d",&playedCell);
+        }while(plateau->board[playedCell]!=VOID_CELL);
+        setPawn(plateau,playedCell,blueToken++);
 
         printBoard(plateau);
 
         //IA
         do{
-            jouer = ouEstCeQueLIAFacileDoitJouer(plateau, turn);
-        }while(plateau->board[jouer]!=VOID_CELL);
-        printf("Tour de l'IA\n%d\n",jouer);
-        setPawn(plateau,jouer,redToken++);
+            playedCell = whereEasyAIHasToPlay(plateau, turn);
+        }while(plateau->board[playedCell]!=VOID_CELL);
+        printf("Tour de l'IA\n%d\n",playedCell);
+        setPawn(plateau,playedCell,redToken++);
 
         printBoard(plateau);
 
@@ -170,9 +170,8 @@ void playWithArtificialIntelligenceLevel1(){
         printf("Egalité\n");
 }
 
-node_t* ouEstCeQueLIADifficileDoitJouer(int blueLastPlay,int turn, node_t* actual,board_t* plateau){
+node_t* whereHardAIHasToPlay(int blueLastPlay,int turn, node_t* actual,board_t* plateau,tree_t* tree){
     if (turn==1){
-        tree_t* tree=createTree();
         setFirstBlueChoice(tree,plateau,blueLastPlay);
         int redPlay;
         do{
@@ -217,22 +216,23 @@ void playWithArtificialIntelligenceLevel2(){
     char blueToken=1;
     char redToken=7;
 
+    tree_t* t = createTree();
+
     //Lancement de la partie
     printBoard(plateau);
     while(turn<=6){
 
         //Joueur
-        int jouer;
+        int playedCell;
         do{
             printf("Où veux-tu jouer ?\n");
-            scanf("%d",&jouer);
-        }while(plateau->board[jouer]!=VOID_CELL);
-        setPawn(plateau,jouer,blueToken++);
-
+            scanf("%d",&playedCell);
+        }while(plateau->board[playedCell]!=VOID_CELL);
+        setPawn(plateau,playedCell,blueToken++);
         printBoard(plateau);
 
         //IA
-        actualPositionOfIA=ouEstCeQueLIADifficileDoitJouer(jouer,turn,actualPositionOfIA,plateau);
+        actualPositionOfIA=whereHardAIHasToPlay(playedCell,turn,actualPositionOfIA,plateau,t);
         setPawn(plateau,actualPositionOfIA->idCell,redToken++);
 
         printBoard(plateau);
@@ -248,6 +248,7 @@ void playWithArtificialIntelligenceLevel2(){
         printf("\033[34mBlue Victories \033[37m\n");
     else
         printf("Egalité\n");
+    freeMemories(t->root);
 }
 
 
@@ -266,21 +267,21 @@ void playWithTwoFriends(){
     while(turn<=6){
 
         //Joueur
-        int jouer;
+        int playedCell;
         do{
             printf("Où veux-tu jouer (J1) ?\n");
-            scanf("%d",&jouer);
-        }while(plateau->board[jouer]!=VOID_CELL);
-        setPawn(plateau,jouer,blueToken++);
+            scanf("%d",&playedCell);
+        }while(plateau->board[playedCell]!=VOID_CELL);
+        setPawn(plateau,playedCell,blueToken++);
 
         printBoard(plateau);
 
         //IA
         do{
             printf("Où veux-tu jouer (J2) ?\n");
-            scanf("%d",&jouer);
-        }while(plateau->board[jouer]!=VOID_CELL);
-        setPawn(plateau,jouer,redToken++);
+            scanf("%d",&playedCell);
+        }while(plateau->board[playedCell]!=VOID_CELL);
+        setPawn(plateau,playedCell,redToken++);
 
         printBoard(plateau);
 

@@ -290,4 +290,13 @@ int computeDraws(node_t* n) {
     return nb;
 }
 
-//void freeMemories()
+void freeMemories(node_t* n){
+    if(n->nbChildren==0){
+        return;
+    }else{
+        for(int k=0;k<n->nbChildren;k++){
+            freeMemories(n->children[k]);
+            free(n->children[k]);
+        }
+    }
+}
