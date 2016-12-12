@@ -181,29 +181,38 @@ node_t* whereHardAIHasToPlay(int blueLastPlay,int turn, node_t* actual,board_t* 
 
         setFirstRedChoice(tree,plateau,redPlay);
 
-        board_t board=*plateau;
-
-        computePossibilities(tree->root->children[0],&board);
         return tree->root->children[0];
     }
-    else {
+    else if (turn == 2){
+        board_t board=*plateau;
+        addChild(actual, blueLastPlay);
+        computePossibilities(actual->children[0],&board);
+        actual=actual->children[0];
+    } else{
         for(int k=0;k<actual->nbChildren;k++) {
             if(actual->children[k]->idCell==blueLastPlay)
                 actual=actual->children[k];
         }
-        node_t* nextPlay=NULL;
-        int nbChanceWin=0;
-        for(int k=0;k<actual->nbChildren;k++){
-            int nbChanceWinForThisNode=computeRedVictories(actual->children[k]);
-            if(nbChanceWinForThisNode>nbChanceWin){
-                nextPlay=actual->children[k];
-            }
-        }
-        if(nextPlay==NULL){
-            nextPlay=actual->children[0];
-        }
-        return nextPlay;
     }
+    node_t* nextPlay=NULL;
+    int nbChanceWin=0;
+    int nbChanceDraw=0;
+    for(int k=0;k<actual->nbChildren;k++) {
+        int nbChanceWinForThisNode = computeRedVictories(actual->children[k]);
+        int nbChanceDrawForThisNode = computeDraws(actual->children[k]);
+        if (nbChanceWinForThisNode > nbChanceWin) {
+            nbChanceWin=nbChanceWinForThisNode;
+            nextPlay = actual->children[k];
+        }else if(nbChanceWinForThisNode==nbChanceWin && nbChanceDrawForThisNode>nbChanceDraw){
+            nbChanceDraw=nbChanceDrawForThisNode;
+            nextPlay = actual->children[k];
+        }
+    }
+    if(nextPlay==NULL){
+        nextPlay=actual->children[0];
+    }
+        return nextPlay;
+
 }
 
 void playWithArtificialIntelligenceLevel2(){

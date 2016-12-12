@@ -59,5 +59,6 @@ void computePossibilities(node_t* n, board_t* b);
 int computeBlueVictories(node_t* n);
 int computeRedVictories(node_t* n);
 int computeDraws(node_t* n);
+void freeMemories(node_t* n);
 
 #endif
