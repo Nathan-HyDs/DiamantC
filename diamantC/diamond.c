@@ -176,8 +176,7 @@ node_t* addChild(node_t* n, int idCell) {
 tree_t* createTree() {
 
     tree_t* t= malloc(sizeof(tree_t));
-    node_t* root = createNode(0,1);
-    t->root=root;
+    t->root=malloc(sizeof(node_t));
     return t;
 }
 
@@ -186,7 +185,7 @@ void setFirstBlueChoice(tree_t* t, board_t* b, int idCell) {
 /**************************
     Definition de node
 **************************/
-    addChild(t->root,idCell);
+    t->root=createNode(idCell,1);
     setPawn(b,idCell,1);
 
 }
@@ -290,3 +289,5 @@ int computeDraws(node_t* n) {
     }
     return nb;
 }
+
+//void freeMemories()

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "diamond.h"
+#include <time.h>
 void printBoard(board_t* b){
     int lignes[5];
     lignes[0]=3;
@@ -24,6 +25,8 @@ void printBoard(board_t* b){
     compteur[4]=12;
 
     int count=0;
+
+    printf("\n");
 
     for(int k=0;k<5;k++){
         for(int i=0;i<3;i++){
@@ -106,8 +109,8 @@ void exo1(){
     int idCellRed = 0;
 
 
-    setFirstRedChoice(t,b,idCellRed);
     setFirstBlueChoice(t,b,idCellBlue);
+    setFirstRedChoice(t,b,idCellRed);
     buildTree(t,b);
     int nbBlueVictories = computeBlueVictories(t->root);
     int nbRedVictories = computeRedVictories(t->root);
@@ -118,12 +121,9 @@ void exo1(){
 }
 
 int ouEstCeQueLIAFacileDoitJouer(board_t* b,int turn){
-    if (turn==1){
-        return  (rand()%13);
-    }
-    else {
-        return  (rand()%13);
-    }
+    unsigned int t=time(NULL);
+    int testRand= rand_r(&t)%13;
+    return  testRand;
 }
 
 void playWithArtificialIntelligenceLevel1(){
@@ -174,18 +174,18 @@ node_t* ouEstCeQueLIADifficileDoitJouer(int blueLastPlay,int turn, node_t* actua
     if (turn==1){
         tree_t* tree=createTree();
         setFirstBlueChoice(tree,plateau,blueLastPlay);
-        node_t* n = tree->root->children[0];
         int redPlay;
         do{
-            redPlay=rand()%13;
+            unsigned int t=time(NULL);
+            redPlay= rand_r(&t)%13;
         }while(plateau->board[redPlay]!=VOID_CELL);
+
+        setFirstRedChoice(tree,plateau,redPlay);
 
         board_t board=*plateau;
 
-        n=addChild(n,redPlay);
-
-        computePossibilities(n,&board);
-        return n;
+        computePossibilities(tree->root->children[0],&board);
+        return tree->root->children[0];
     }
     else {
         for(int k=0;k<actual->nbChildren;k++) {
@@ -199,6 +199,9 @@ node_t* ouEstCeQueLIADifficileDoitJouer(int blueLastPlay,int turn, node_t* actua
             if(nbChanceWinForThisNode>nbChanceWin){
                 nextPlay=actual->children[k];
             }
+        }
+        if(nextPlay==NULL){
+            nextPlay=actual->children[0];
         }
         return nextPlay;
     }
@@ -265,7 +268,7 @@ void playWithTwoFriends(){
         //Joueur
         int jouer;
         do{
-            printf("Où veux-tu jouer ?\n");
+            printf("Où veux-tu jouer (J1) ?\n");
             scanf("%d",&jouer);
         }while(plateau->board[jouer]!=VOID_CELL);
         setPawn(plateau,jouer,blueToken++);
@@ -274,7 +277,7 @@ void playWithTwoFriends(){
 
         //IA
         do{
-            printf("Où veux-tu jouer (ia)?\n");
+            printf("Où veux-tu jouer (J2) ?\n");
             scanf("%d",&jouer);
         }while(plateau->board[jouer]!=VOID_CELL);
         setPawn(plateau,jouer,redToken++);
