@@ -178,17 +178,11 @@ tree_t* createTree() {
     tree_t* t= malloc(sizeof(tree_t));
     node_t* root = createNode(0,1);
     t->root=root;
-    /* A COMPLETER :
-     - allouer l'espace mémoire pour un tree_t et mettre son adresse dans t
-     - initialiser le champ root
-  */
     return t;
 }
 
 
 void setFirstBlueChoice(tree_t* t, board_t* b, int idCell) {
-    //A REFAIRE
-
 /**************************
     Definition de node
 **************************/
@@ -198,8 +192,6 @@ void setFirstBlueChoice(tree_t* t, board_t* b, int idCell) {
 }
 
 void setFirstRedChoice(tree_t* t, board_t* b, int idCell) {
-    // A REFAIRE
-
 /**************************
     Definition de node
 **************************/
@@ -209,8 +201,6 @@ void setFirstRedChoice(tree_t* t, board_t* b, int idCell) {
 
 void buildTree(tree_t* t, board_t* b) {
 
-    /* A VERIFIER
-  */
     nbConfigurations=0;
     node_t* n = t->root->children[0];
     computePossibilities(n,b);
