@@ -236,6 +236,7 @@ void playWithArtificialIntelligenceLevel2(){
         do{
             printf("Où veux-tu jouer ?\n");
             scanf("%d",&playedCell);
+
         }while(plateau->board[playedCell]!=VOID_CELL);
         setPawn(plateau,playedCell,blueToken++);
         printBoard(plateau);
