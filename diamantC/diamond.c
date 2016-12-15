@@ -297,6 +297,10 @@ void freeMemories(node_t* n){
         for(int k=0;k<n->nbChildren;k++){
             freeMemories(n->children[k]);
             free(n->children[k]);
+            n->children[k]=NULL;
         }
+    }
+    if(n->turn==1){
+        free(n);
     }
 }

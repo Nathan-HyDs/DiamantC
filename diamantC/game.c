@@ -116,7 +116,8 @@ void exo1(){
     int nbRedVictories = computeRedVictories(t->root);
     int nbDraws = computeDraws(t->root);
 
-    printf("nb configuration: %d, nb blue victories: %d, nb red victories: %d, nb draws: %d\n",nbConfigurations,nbBlueVictories, nbRedVictories, nbDraws);
+    freeMemories(t->root);
+    printf("\nnb configuration: %d, nb blue victories: %d, nb red victories: %d, nb draws: %d\n",nbConfigurations,nbBlueVictories, nbRedVictories, nbDraws);
 
 }
 
@@ -236,8 +237,8 @@ void playWithArtificialIntelligenceLevel2(){
         do{
             printf("Où veux-tu jouer ?\n");
             scanf("%d",&playedCell);
-
         }while(plateau->board[playedCell]!=VOID_CELL);
+
         setPawn(plateau,playedCell,blueToken++);
         printBoard(plateau);
 
@@ -258,7 +259,7 @@ void playWithArtificialIntelligenceLevel2(){
         printf("\033[34mBlue Victories \033[37m\n");
     else
         printf("Egalité\n");
-    freeMemories(t->root);
+    //freeMemories(t->root);
 }
 
 
@@ -277,7 +278,7 @@ void playWithTwoFriends(){
     while(turn<=6){
 
         //Joueur
-        int playedCell;
+        int playedCell=0;
         do{
             printf("Où veux-tu jouer (J1) ?\n");
             scanf("%d",&playedCell);
@@ -309,6 +310,12 @@ void playWithTwoFriends(){
 }
 
 int main(int argc, char** argv){
+
+    if(argc!=1){
+        printf("Usage : Aucun argument nécessaire pour le lancement de ce programme.\n"
+                       "Pour lancer : $ diamond\n");
+        exit(-1);
+    }
 
     printf("  _____  _                                 _   _ \n"
                    " |  __ \\(_)                               | | | |\n"
