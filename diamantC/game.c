@@ -149,8 +149,6 @@ void playWithArtificialIntelligenceLevel1(){
 
         setPawn(plateau,playedCell,blueToken++);
 
-        printBoard(plateau);
-
         //IA
         do{
             playedCell = whereEasyAIHasToPlay(plateau, turn);
