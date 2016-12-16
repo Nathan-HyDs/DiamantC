@@ -302,5 +302,6 @@ void freeMemories(node_t* n){
     }
     if(n->turn==1){
         free(n);
+        n=NULL;
     }
 }

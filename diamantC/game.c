@@ -140,11 +140,13 @@ void playWithArtificialIntelligenceLevel1(){
     while(turn<6){
 
         //Joueur
-        int playedCell;
+        int playedCell=-1;
         do{
             printf("Où veux-tu jouer ?\n");
-            scanf("%d",&playedCell);
-        }while(plateau->board[playedCell]!=VOID_CELL);
+            int test = scanf("%d",&playedCell);
+            if(test!=1)exit(0);
+        }while( playedCell<0 || playedCell>=13 || plateau->board[playedCell]!=VOID_CELL);
+
         setPawn(plateau,playedCell,blueToken++);
 
         printBoard(plateau);
@@ -233,14 +235,15 @@ void playWithArtificialIntelligenceLevel2(){
     while(turn<=6){
 
         //Joueur
-        int playedCell;
+        int playedCell=-1;
         do{
             printf("Où veux-tu jouer ?\n");
-            scanf("%d",&playedCell);
-        }while(plateau->board[playedCell]!=VOID_CELL);
+            int test = scanf("%d",&playedCell);
+            if(test!=1)exit(0);
+        }while( playedCell<0 || playedCell>=13 || plateau->board[playedCell]!=VOID_CELL);
 
         setPawn(plateau,playedCell,blueToken++);
-        printBoard(plateau);
+        //printBoard(plateau);
 
         //IA
         actualPositionOfIA=whereHardAIHasToPlay(playedCell,turn,actualPositionOfIA,plateau,t);
@@ -278,20 +281,27 @@ void playWithTwoFriends(){
     while(turn<=6){
 
         //Joueur
-        int playedCell=0;
+        int playedCell=-1;
         do{
-            printf("Où veux-tu jouer (J1) ?\n");
-            scanf("%d",&playedCell);
-        }while(plateau->board[playedCell]!=VOID_CELL);
+            printf("Où veux-tu jouer (j1) ?\n");
+            int test = scanf("%d",&playedCell);
+            if(test!=1)exit(0);
+        }while( playedCell<0 || playedCell>=13 || plateau->board[playedCell]!=VOID_CELL);
         setPawn(plateau,playedCell,blueToken++);
 
         printBoard(plateau);
 
         //IA
+        playedCell=-1;
+
         do{
-            printf("Où veux-tu jouer (J2) ?\n");
-            scanf("%d",&playedCell);
-        }while(plateau->board[playedCell]!=VOID_CELL);
+            printf("Où veux-tu jouer (j2) ?\n");
+            int test = scanf("%d",&playedCell);
+            if(test!=1){
+                printf("Erreur de saisie ! Fin du programme...");
+                exit(0);
+            }
+        }while( playedCell<0 || playedCell>=13 || plateau->board[playedCell]!=VOID_CELL);
         setPawn(plateau,playedCell,redToken++);
 
         printBoard(plateau);
